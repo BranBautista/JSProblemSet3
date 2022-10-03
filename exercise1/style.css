@@ -1,0 +1,35 @@
+#notes {
+    /*flex in order to acomodate the content in flexbox*/
+    display: flex;
+    /* Everything is on the same high */
+    flex-flow: row wrap;
+    justify-content: space-between;
+    text-align: justify;
+    padding: 64px 16px;
+    font-size: 19px;
+    /*We need to all the content fill their boxes */
+    align-items: stretch;
+}
+
+.sftitle {
+    flex-basis: 100%;
+    text-align: left;
+}
+
+.story-title{
+    /*We can make the example without font weight*/
+    font-weight: normal;
+    font-size: 30px;
+    margin: 30px 0px;
+    text-align: left;
+}
+
+.story-text{
+    /* Spacing between text lines */
+    line-height: 1.5;
+    font-size: 19px;
+}
+
+.story-article {
+    flex-basis: 100%;
+}
