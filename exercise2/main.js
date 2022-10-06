@@ -1,13 +1,13 @@
-var mousePosition;
-var offset = [0,0];
-var isDown = false;
+let mousePosition;
+let offset = [0,0];
+let isDown = false;
 
 const selectBorderColor = document.querySelector('.border__color');
 const selectBorderThickness = document.querySelector('.border__thickness');
 const selectBackgroundColor = document.querySelector('.backgroundColor');
 const selectBorderRadius = document.querySelector('.border__radius');
 
-var div = document.querySelector('.dragged');
+let div = document.querySelector('.dragged');
 
 div.addEventListener('mousedown', function(e) {
     isDown = true;
@@ -42,23 +42,3 @@ document.addEventListener('mousemove', function(event) {
         div.style.top  = (mousePosition.y + offset[1]) + 'px';
     }
 }, true);
-
-// function dragStart(event) {
-//     event.dataTransfer.setData("Text", event.target.id);
-//  //   document.getElementById("demo").innerHTML = "Started to drag the p element";
-//   }
-  
-//   function dragEnd(event) {
-//  //   document.getElementById("demo").innerHTML = "Finished dragging the p element.";
-//  event.currentTarget.style.borderColor = selectBorderColor.value;
-//   }
-  
-//   function allowDrop(event) {
-//     event.preventDefault();
-//   }
-  
-//   function drop(event) {
-//     event.preventDefault();
-//     var data = event.dataTransfer.getData("Text");
-//     event.target.appendChild(document.getElementById(data));
-//   }
