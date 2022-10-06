@@ -14,7 +14,7 @@ function showNotes() {
     notes.forEach((note, index) => {
         let displayTag = `
         <article class="note">
-        <div class="details">
+            <div class="details">
                 <p>${note.title}</p>
                 <span>${note.body}</span>
             </div>
