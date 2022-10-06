@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page</title>
     <link rel="stylesheet" href="style.css">
+    <title>Notes app</title>
 </head>
+
 <body>
-    <h2>Hello!</h2>
-    <label for="inputtext">Here you can write your notes</label>
-    <br>
-    <textarea name="title" id="notetitlearea" cols="30" rows="1"></textarea>
-    <br>
-    <textarea name="note" id="notetextarea" cols="30" rows="10"></textarea>
-    <br>
-    <button type="submit" id="btnsubmit">Submit your new note</button>
+    <div class="wrapper">
+        <section id="inputinfo">
+            <h1>Your notes app</h1>
+            <input type="text" name="title" id="notetitleinput" placeholder="Title..."></input>
+            <br>
+            <textarea name="body" id="notebodyarea" cols="30" rows="10" placeholder="Note..."></textarea>
+            <br>
+            <button type="submit " id="btnsubmit">Submit your new note!</button>
+        </section>
 
-
-    <section id="notes">
-        <h2 class="sftitle">Notes</h2>
-    </section>
-    <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+        <section id="notes">
+            <h2 class="noteswrapper">Notes</h2>
+        </section>
+    </div>
     <script src="main.js"></script>
 </body>
+
 </html>
