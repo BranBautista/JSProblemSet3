@@ -1,123 +1,85 @@
-// document.getElementById("btnsubmit").onclick = function(){
+const submit = document.getElementById("btnsubmit");
+const titleTag = document.getElementById("notetitleinput");
+const bodyTag = document.getElementById("notebodyarea");
+const notesArea = document.getElementById("notes");
 
-//     var section = document.getElementById("notes");
+const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
-//     //For the title
+//Get all the notes in the local storage if there exist and parse them to an object. Else passing and empty array
+const notes = JSON.parse(localStorage.getItem("notes") || "[]"); 
 
-//     const articleTag = document.createElement("article");
-//     articleTag.setAttribute("class","story-article");
-
-//     var theNoteTitle = document.getElementById("notetitlearea").value;
-
-//     const newTitle = document.createElement("h3");
-//     newTitle.setAttribute("class","story-title");
-//     const noteTitle = document.createTextNode(theNoteTitle);
-
-//     newTitle.appendChild(noteTitle);
-//     articleTag.appendChild(newTitle);
-
-//     //For the text
-
-//     var theNoteText = document.getElementById("notetextarea").value;
-
-//     const newNote = document.createElement("p");
-//     newNote.setAttribute("class","story-text");
-//     const noteText = document.createTextNode(theNoteText);
-
-//     newNote.appendChild(noteText);
-//     articleTag.appendChild(newNote);
-
-//     const deleteButton = document.createElement("button");
-//     deleteButton.setAttribute("type","submit");
-
-//     const textDeleteButton = document.createTextNode("Delete note")
-
-//     deleteButton.appendChild(textDeleteButton);
-
-//     articleTag.appendChild(deleteButton);
-
-//     section.appendChild(articleTag);
-//}
-
-
-$('#btnsubmit').click(function () {
-
-    var section = $("#notes")
-
-    articleTag = document.createElement("article")
-
-    $(section).append(articleTag);
-    $(articleTag).addClass("story-article");
-
-    var theNoteTitle = $("#notetitlearea").val();
-
-    newTitle = document.createElement("h3");
-
-    $(articleTag).append(newTitle);
-    $(newTitle).addClass("story-title");
-    $(newTitle).text(theNoteTitle);
-
-    var theNoteText = $("#notetextarea").val();
-
-    newNote = document.createElement("p");
-
-    $(articleTag).append(newNote);
-    $(newNote).addClass("story-text");
-    $(newNote).text(theNoteText);
-
-    // $("article").each(function () {
-    //     $(this).append('<a class="delete" href="#">Delete</a>  <a href="#" class="edit">Edit</a>')
-    // });
-
-    linkDelete = document.createElement("a");
-
-    $(articleTag).append(linkDelete);
-    $(linkDelete).addClass("delete");
-    $(linkDelete).attr("href", "#");
-    $(linkDelete).text("Delete");
-
-    linkEdit = document.createElement("a");
-
-    $(articleTag).append(linkEdit);
-    $(linkEdit).addClass("edit");
-    $(linkEdit).attr("href", "#");
-    $(linkEdit).text("Edit");
-
-    $('article a.delete').on('click', function () {
-        $(this).parent().remove();
-        return false;
+function showNotes (){
+    document.querySelectorAll(".note").forEach(note => note.remove());
+    notes.forEach((note, index) => {
+        let displayTag = `
+        <article class="note">
+        <div class="details">
+                <p>${note.title}</p>
+                <span>${note.body}</span>
+            </div>
+            <div class="foot">
+                <span>${note.date}</span>
+                <br>
+                <a onclick="deleteNote(${index})" class="delete" href="#">Delete</a>
+                <a onclick="editNote(${index}, '${note.title}','${note.body}')" class="edit" href="#">Edit</a>
+            </div>
+        </article>
+        `;
+        notesArea.insertAdjacentHTML("beforeend",displayTag);
     });
+}
 
-    // $("article a.edit").click(function () {
-    //     var section = $(this).siblings('.story-text');
-    //     var isEdit = $(this).is('.edit');
+showNotes();
 
-    //     linkUpdate = document.createElement("a");
+function deleteNote(noteId){
+    notes.splice(noteId, 1); //remove selected note from array
+    //save updated notes to local storage
+    notesString = JSON.stringify(notes);
+    localStorage.setItem("notes", notesString);
+    showNotes();
+}
 
-    //     $(articleTag).append(linkUpdate);
-    //     $(linkUpdate).addClass("update");
-    //     $(linkUpdate).attr("href", "#");
-    //     $(linkUpdate).text("Update");
+function editNote(noteId, title, body) {
+    
+    notes.findIndex((element,noteId) => {
+        titleTag.value = element.title;
+        bodyTag.value = element.body;
+    })
 
-    //     section.prop('contenteditable', isEdit).css('border', isEdit ? "2px solid" : "none");
-    //     $('.edit').toggle(!isEdit);
-    //     $('.update').toggle(isEdit);
-    //     if (isEdit) { section.focus(); document.execCommand('selectAll', false, null); }
-    // });
+    notes.splice(noteId,1);
+    notesString = JSON.stringify(notes);
+    localStorage.setItem("notes",notesString);
+    showNotes();
+}
 
+submit.addEventListener("click",e => {
+    e.preventDefault();
+    let noteTitle = titleTag.value;
+    let noteBody = bodyTag.value;
 
-    $('article a.edit').on('click', function () {
-        var val = $(this).siblings('.story-text').html();
-        if (val) {
-            $(this).parent().prepend('<input type="text" class="txt" value="' + val + '" />');
-            $(this).siblings('.story-text').remove();
-            $(this).html('Update');
-        } else {
-            var $txt = $(this).siblings().filter(function() { return $(this).hasClass('txt') });
-            $(this).parent().prepend('<p class="story-text">' + $txt.val() + '</p>');
-            $txt.remove();
-            $(this).html('Edit');
+    if(noteTitle || noteBody) {
+
+        //We need to get the date
+        let dateObj = new Date(),
+        month = months[dateObj.getMonth()],
+        day = dateObj.getDate(),
+        year = dateObj.getFullYear();
+
+        let noteStructure = {
+            title: noteTitle,
+            body: noteBody,
+            date: `${month} ${day}, ${year}`
         }
-        return false;
-    });
+
+        // We will save all the notes on the next array
+        notes.push(noteStructure); //Here we are adding the notes to the array notes
+        notesString = JSON.stringify(notes); //We need to convert the array into string, then save in the local.storage
+        localStorage.setItem("notes", notesString); //Here we are saving the notes' array in the local storage
+
+        showNotes();
+
+        titleTag.value = "";
+        bodyTag.value = "";
+    }
 })
+
