@@ -120,3 +120,8 @@ textarea {
     font-family: var(--mono);
     font-size: 2rem;
 }
+
+.details span {
+    white-space: pre;
+    tab-size: 4;
+}
