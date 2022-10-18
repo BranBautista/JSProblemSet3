@@ -6,11 +6,11 @@ let dateHelp = "";
 
 let template = document.getElementById("template")
 
-//We save in 'notes' all the notes in the local storage
+//I save in 'notes' all the notes in the local storage
 const notesLocalStorage = localStorage.getItem("notes");
-//we pass the string into an object with JSONparse, if there no data we pass an empty array
+//I pass the string into an object with JSONparse, if there no data we pass an empty array
 const notes = JSON.parse(notesLocalStorage || "[]");
-
+//I create an array to save the dates of editions 
 let editRegisterObj = [];
 
 
@@ -35,6 +35,8 @@ function showNotes() {
         <div class="details">
                 <p>${note.title}</p>
                 <span>${note.body}</span>
+                <br>
+                <span>${index}</span>
             </div>
             <div class="foot">
                 <span>${note.date}</span>
@@ -74,19 +76,18 @@ function deleteNote(noteId) {
 
 //This function will edit the selected note
 function editNote(noteId, title, body) {
-
-    //Here we put the title and body of the note about to edit, on the input and textarea in order to edit
-    notes.findIndex((element, noteId) => {
-        titleTag.value = element.title;
-        bodyTag.value = element.body;
-    })
+    //Here I put the title and body of the note about to edit, on the input and textarea in order to edit
+    titleTag.value = notes[noteId].title;
+    bodyTag.value = notes[noteId].body;
     
+    //Here I use the last date of edit in order to save it in the dateHelp variable 
+
     let lengthArray = editRegisterObj[noteId].lastEdit.length
     editRegister = JSON.stringify(editRegisterObj[noteId].lastEdit[lengthArray-1])
 
     dateHelp = editRegister;
 
-    notes.splice(noteId, 1);
+    notes.splice(noteId,1)
     notesString = JSON.stringify(notes);
 
     showNotes();
@@ -110,7 +111,7 @@ submit.addEventListener("click", e => {
         
         //We define the structure of the note
 
-        if (dateHelp == ""){
+        if (dateHelp == ""){ //If is new note
             noteStructure = {
                 title: noteTitle,
                 body: noteBody,
@@ -119,13 +120,15 @@ submit.addEventListener("click", e => {
             }
         }
         else {
-            noteStructure = {
+            noteStructure = { //Is is an edition
                 title: noteTitle,
                 body: noteBody,
                 date: currentDate,
                 editDate: dateHelp
             }
         }
+
+        dateHelp = "";
 
         // We will save all the notes on the next array
         // and we will add the notes to the array notes
