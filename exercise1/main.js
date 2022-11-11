@@ -16,7 +16,6 @@ const template = document.getElementById("template");
 let editRegisterObj = [];
 let filteredNotes = [];
 let listNotes = [];
-// let commands = [];
 let dateHelp = "";
 let dragStartIndex;
 let noteNoEdited;
@@ -32,7 +31,7 @@ const notesLocalStorage = localStorage.getItem("notes");
 //I pass the string into an object with JSONparse, if there no data we pass an empty array
 const notes = JSON.parse(notesLocalStorage || "[]");
 
-//I save in 'notes' all the notes in the local storage
+//I save in 'commands' all the notes in the local storage
 const commandsLocalStorage = localStorage.getItem("commands");
 //I pass the string into an object with JSONparse, if there no data we pass an empty array
 const commands = JSON.parse(commandsLocalStorage || "[]");
